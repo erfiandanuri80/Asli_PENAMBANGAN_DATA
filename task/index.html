@@ -125,6 +125,7 @@
 <li><a href="#mengukur-jarak-tipe-numerik">Mengukur Jarak Tipe Numerik</a></li>
 <li><a href="#menghitung-jarak-ordinal">Menghitung Jarak Ordinal</a></li>
 <li><a href="#menghitung-jarak-binary">Menghitung jarak Binary</a></li>
+<li><a href="#menghitung-jarak-campuran">Menghitung Jarak Campuran</a></li>
 <li><a href="#display">display</a></li>
 </ul>
 </li>
@@ -916,15 +917,21 @@ num=[0,1,2,3]
     return ((r+s)/(q+r+s+t))
 </code></pre>
 
+<h5 id="menghitung-jarak-campuran">Menghitung Jarak Campuran</h5>
+<p>jumlah jarak setiap jenis type data</p>
+<pre><code>def jarak(v1,v2):
+    return ((chordDist(v1,v2,num)+ordDist(v1,v2,ordinal)+binaryDist(v1,v2,binary))/4)
+</code></pre>
+
 <h5 id="display"><strong>display </strong></h5>
 <pre><code>from IPython.display import HTML, display
 import tabulate
 table=[
     [&quot;Data&quot;]+[&quot;Jarak&quot;]+[&quot;Numeric&quot;]+[&quot;Ordinal&quot;]+[&quot;Binary&quot;],
-    [&quot;v1-v2&quot;]+[0]+[chordDist(0,1,num)]+[ordDist(0,1,ordinal)]+[binaryDist(0,1,binary)],
-    [&quot;v1-v3&quot;]+[0]+[chordDist(0,2,num)]+[ordDist(0,2,ordinal)]+[binaryDist(0,2,binary)],
-    [&quot;v2-v3&quot;]+[0]+[chordDist(1,2,num)]+[ordDist(1,2,ordinal)]+[binaryDist(1,2,binary)],
-    [&quot;v3-v4&quot;]+[0]+[chordDist(1,3,num)]+[ordDist(1,3,ordinal)]+[binaryDist(1,3,binary)],
+    [&quot;v1-v2&quot;]+[&quot;{:.3f}&quot;.format(jarak(0,1))]+[&quot;{:.3f}&quot;.format(chordDist(0,1,num))]+[&quot;{:.3f}&quot;.format(ordDist(0,1,ordinal))]+[&quot;{:.3f}&quot;.format(binaryDist(0,1,binary))],
+    [&quot;v1-v3&quot;]+[&quot;{:.3f}&quot;.format(jarak(0,2))]+[&quot;{:.3f}&quot;.format(chordDist(0,3,num))]+[&quot;{:.3f}&quot;.format(ordDist(0,2,ordinal))]+[&quot;{:.3f}&quot;.format(binaryDist(0,2,binary))],
+    [&quot;v2-v3&quot;]+[&quot;{:.3f}&quot;.format(jarak(1,2))]+[&quot;{:.3f}&quot;.format(chordDist(1,2,num))]+[&quot;{:.3f}&quot;.format(ordDist(1,2,ordinal))]+[&quot;{:.3f}&quot;.format(binaryDist(1,2,binary))],
+    [&quot;v3-v4&quot;]+[&quot;{:.3f}&quot;.format(jarak(1,3))]+[&quot;{:.3f}&quot;.format(chordDist(1,3,num))]+[&quot;{:.3f}&quot;.format(ordDist(1,3,ordinal))]+[&quot;{:.3f}&quot;.format(binaryDist(1,3,binary))],
     ]
 
 display(HTML(tabulate.tabulate(table, tablefmt='html')))
@@ -944,31 +951,31 @@ display(HTML(tabulate.tabulate(table, tablefmt='html')))
 <tbody>
 <tr>
 <td>v1-v2</td>
-<td>0</td>
-<td>1.4141700880324857</td>
-<td>1.3333333333333333</td>
-<td>0.0</td>
+<td>0.687</td>
+<td>1.414</td>
+<td>1.333</td>
+<td>0.000</td>
 </tr>
 <tr>
 <td>v1-v3</td>
-<td>0</td>
-<td>1.4141944609095267</td>
-<td>1.3333333333333333</td>
-<td>1.0</td>
+<td>0.937</td>
+<td>1.414</td>
+<td>1.333</td>
+<td>1.000</td>
 </tr>
 <tr>
 <td>v2-v3</td>
-<td>0</td>
-<td>1.4141919305747108</td>
-<td>1.3333333333333333</td>
-<td>1.0</td>
+<td>0.937</td>
+<td>1.414</td>
+<td>1.333</td>
+<td>1.000</td>
 </tr>
 <tr>
 <td>v3-v4</td>
-<td>0</td>
-<td>1.4141637566653718</td>
-<td>1.3333333333333333</td>
-<td>1.0</td>
+<td>0.937</td>
+<td>1.414</td>
+<td>1.333</td>
+<td>1.000</td>
 </tr>
 </tbody>
 </table>
