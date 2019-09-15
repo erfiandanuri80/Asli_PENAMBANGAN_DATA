@@ -66,8 +66,6 @@
         
             <li><a class="toctree-l3" href="#tugas-20">TUGAS 2.0</a></li>
         
-            <li><a class="toctree-l3" href="#under-maintenance">~~~~~UNDER MAINTENANCE~~~~</a></li>
-        
         </ul>
     
 
@@ -122,12 +120,19 @@
 <li><a href="#code">Code</a></li>
 </ul>
 </li>
-<li><a href="#tugas-20"><u>TUGAS 2.0</u></a></li>
-<li><a href="#under-maintenance">~~~~~UNDER MAINTENANCE~~~~</a></li>
+<li><a href="#tugas-20"><u>TUGAS 2.0</u></a><ul>
+<li><a href="#mengukur-jarak-data">Mengukur Jarak Data</a></li>
+<li><a href="#mengukur-jarak-tipe-numerik">Mengukur Jarak Tipe Numerik</a></li>
+<li><a href="#menghitung-jarak-ordinal">Menghitung Jarak Ordinal</a></li>
+<li><a href="#menghitung-jarak-binary">Menghitung jarak Binary</a></li>
+<li><a href="#display">display</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
+<hr />
 <h3 id="tugas-10"><u><strong>TUGAS 1.0</strong></u></h3>
 <h5 id="statistika-deskriptif">Statistika Deskriptif</h5>
 <p>Statistik deskriptif merupakan proses analisis statistik yang fokus kepada manejemen,   penyajian, dan klasifikasi data. Dengan proses ini, data yang disajikan akan menjadi lebih menarik lebih mudah dipahami, dan mampu memberikan makna lebih bagi pengguna data. Ada beberapa bentuk media yang biasa digunakan sebagai analisis deksriptif, diantaranya adalah tabel, grafik, diagram, infografis, dll. Tabel dan grafik adalah media yang biasa kita gunakan dalam menyajikan statistik deskriptif.</p>
@@ -757,7 +762,6 @@ print(&quot;Nilai modus {} dengan jumlah {}&quot;.format(mode.mode[0], mode.coun
 print(&quot;kemencengan          &quot; ,&quot;{0:.6f}&quot;.format(round(df['beratbadan'].skew(),6)))
 print(&quot;Standar Deviasi   &quot;,&quot;{0:.2f}&quot;.format(round(df['beratbadan'].std(),2)))
 print(&quot;Variansi         &quot;,&quot;{0:.2f}&quot;.format(round(df['beratbadan'].var(),2)))
-
 </code></pre>
 
 <p>hasil :</p>
@@ -777,16 +781,198 @@ Variansi          190.82
 
 <hr>
 
-<hr>
-
-<hr>
-
+<p><hr>
+<hr>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</hr></p>
 <h3 id="tugas-20"><u><strong>TUGAS 2.0</strong></u></h3>
-<p><strong>Mengukur Jarak Data</strong></p>
-<p><strong>Mengukur Jarak Tipe Numerik</strong></p>
-<p>link tugas 2</p>
-<h3 id="under-maintenance"><em>~~~~~UNDER MAINTENANCE~~~~</em></h3>
-<p><a href="https://github.com/erfiandanuri80/Asli_PENAMBANGAN_DATA/tree/master/asset">https://github.com/erfiandanuri80/Asli_PENAMBANGAN_DATA/tree/master/asset</a></p>
+<h5 id="mengukur-jarak-data"><strong>Mengukur Jarak Data</strong></h5>
+<h5 id="mengukur-jarak-tipe-numerik"><strong>Mengukur Jarak Tipe Numerik</strong></h5>
+<p>Salah satu tantangan dalam era ini dengan datatabase yang memiliki banyak tipe data. Mengukur jarak adalah komponen utama dalam algoritma clustering berbasis jarak. Alogritma seperit Algoritma Partisioning misal K-Mean, K-medoidm dan fuzzy c-mean dan rough clustering bergantung pada jarak untuk melakukan pengelompokkan</p>
+<p>Sebelum menjelaskan tentang beberapa macam ukuran jarak, kita mendefinisikan terlebih dahulu yaiut v1,v2v1,v2 menyatakandua vektor yang menyatakan v1=x1,x2,...,xn,v2=y1,y2,...,yn,v1=x1,x2,...,xn,v2=y1,y2,...,yn, dimana xi,yixi,yi disebut attribut. Ada beberapa ukuran similaritas datau ukuran jarak, diantaranya:</p>
+<ol>
+<li><em>Minkowski Distance</em></li>
+<li><em>Manhattan distance</em></li>
+<li><em>Euclidean distance</em></li>
+<li><em>Average Distance</em></li>
+<li><em>Weighted euclidean distance</em></li>
+<li><em>Chord distance</em></li>
+<li><em>Mahalanobis distance</em></li>
+<li><em>Cosine measure</em></li>
+<li><em>Pearson correlation</em></li>
+</ol>
+<pre><code>from scipy import stats
+import pandas as pd
+df = pd.read_csv('bupa.csv')
+a=df.iloc[33:38]
+a
+</code></pre>
+
+<p><strong>out:</strong></p>
+<table>
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">c</th>
+<th align="right">d</th>
+<th align="right">e</th>
+<th align="right">f</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">33</td>
+<td align="right">88</td>
+<td align="right">96</td>
+<td align="right">28</td>
+<td align="right">21</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="right">34</td>
+<td align="right">94</td>
+<td align="right">65</td>
+<td align="right">22</td>
+<td align="right">18</td>
+<td align="right">5</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="right">35</td>
+<td align="right">91</td>
+<td align="right">72</td>
+<td align="right">155</td>
+<td align="right">68</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">36</td>
+<td align="right">85</td>
+<td align="right">54</td>
+<td align="right">47</td>
+<td align="right">33</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">37</td>
+<td align="right">79</td>
+<td align="right">39</td>
+<td align="right">14</td>
+<td align="right">19</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>kolom kategori :</strong></p>
+<pre><code>binary=[5]
+ordinal=[4]
+num=[0,1,2,3]
+</code></pre>
+
+<p><strong>Menghitung Jarak Numerik</strong> (averagedistance)</p>
+<pre><code>def chordDist(v1,v2,jnis):
+    jmlh=0
+    normv1=0
+    normv2=0
+    for x in range (len(jnis)):
+        normv1=normv1+(int(a.values.tolist()[v1][jnis[x]])**2)
+        normv2=normv2+(int(a.values.tolist()[v2][jnis[x]])**2)
+        jmlh=jmlh+(int(a.values.tolist()[v1][jnis[x]])*int(a.values.tolist()[v2][jnis[x]]))
+    return ((2-(2*jmlh/(normv1*normv2)))**0.5)    
+</code></pre>
+
+<h5 id="menghitung-jarak-ordinal"><strong>Menghitung Jarak Ordinal</strong></h5>
+<p>Nilai-nilai atribut ordinal memiliki urutan atau peringkat, namun besarnya antara nilai-nilai berturut-turut tidak diketahui. Contohnya tingkatan kecil, sedang, besar untuk atribut ukuran. Atribut ordinal juga dapat diperoleh dari diskritisasi atribut numerik dengan membuat rentang nilai ke dalam sejumlah kategori tertentu. Kategori-kategori ini disusun dalam peringkat. Yaitu, rentang atribut numerik dapat dipetakan ke atribut ordinal ff yang memiliki MfMf state. Misalnya, kisaran suhu atribut skala-skala (dalam Celcius)dapat diatur ke dalam status berikut: −30 hingga −10, −10 hingga 10, 10 hingga 30, masing-masing mewakili kategori suhu dingin, suhu sedang, dan suhu hangat. MM adalah jumlah keadaan yang dapat dilakukan oleh atribut ordinalmemiliki. State ini menentukan peringkat 1,...,Mf</p>
+<pre><code>def ordDist(v1,v2,jnis):
+    jmlh=0
+    for x in range (len(jnis)):
+        z1=int(a.values.tolist()[v1][jnis[x]])-1
+        z2=int(a.values.tolist()[v2][jnis[x]])-1
+        jmlh=jmlh+chordDist(z1,z2,jnis)
+    return (jmlh)
+</code></pre>
+
+<h5 id="menghitung-jarak-binary"><strong>Menghitung jarak Binary</strong></h5>
+<p>Mari kita lihat similaritas dan desimilirity untuk objek yang dijelaskan oleh atribut biner simetris atau asimetris. Aatribut biner hanya memiliki dua status: 0 dan 1 Contoh atribut perokok menggambarkan seorang pasien, misalnya, 1 menunjukkan bahwa pasien merokok, sedangkan 0 menunjukkan pasien tidak merokok. Memperlakukan atribut biner sebagai atribut numerik tidak diperkenankan. Oleh karena itu, metode khusus untuk data biner diperlukan untuk membedakan komputasi.</p>
+<p>Jadi, bagaimana kita bisa menghitung ketidaksamaan antara dua atribut biner? ”Satu pendekatan melibatkan penghitungan matriks ketidaksamaan dari data biner yang diberikan. Jika semua atribut biner dianggap memiliki bobot yang sama, kita memiliki tabel kontingensi 2×22×2 di mana qq adalah jumlah atribut yang sama dengan 1 untuk kedua objek ii dan jj, rr adalah jumlah atribut yang sama dengan 1 untuk objek ii tetapi 0 untuk objek jj, ss adalah jumlah atribut yang sama dengan 0 untuk objek ii tetapi 1 untuk objek jj, dan tt adalah jumlah atribut yang sama dengan 0 untuk kedua objek ii dan jj. Jumlah total atribut adalah pp, di mana p=q+r+s+t</p>
+<pre><code>def binaryDist(v1,v2,jnis):
+    q=0
+    r=0
+    s=0
+    t=0
+    for x in range (len(jnis)):
+        if (int(a.values.tolist()[v1][jnis[x]]))==1 and (int(a.values.tolist()[v2][jnis[x]]))==1:
+            q=q+1
+        elif (int(a.values.tolist()[v1][jnis[x]]))==1 and (int(a.values.tolist()[v2][jnis[x]]))==2:
+            r=r+1
+        elif (int(a.values.tolist()[v1][jnis[x]]))==2 and (int(a.values.tolist()[v2][jnis[x]]))==1:
+            s=s+1
+        else:
+            t=t+1
+    return ((r+s)/(q+r+s+t))
+</code></pre>
+
+<h5 id="display"><strong>display </strong></h5>
+<pre><code>from IPython.display import HTML, display
+import tabulate
+table=[
+    [&quot;Data&quot;]+[&quot;Jarak&quot;]+[&quot;Numeric&quot;]+[&quot;Ordinal&quot;]+[&quot;Binary&quot;],
+    [&quot;v1-v2&quot;]+[0]+[chordDist(0,1,num)]+[ordDist(0,1,ordinal)]+[binaryDist(0,1,binary)],
+    [&quot;v1-v3&quot;]+[0]+[chordDist(0,2,num)]+[ordDist(0,2,ordinal)]+[binaryDist(0,2,binary)],
+    [&quot;v2-v3&quot;]+[0]+[chordDist(1,2,num)]+[ordDist(1,2,ordinal)]+[binaryDist(1,2,binary)],
+    [&quot;v3-v4&quot;]+[0]+[chordDist(1,3,num)]+[ordDist(1,3,ordinal)]+[binaryDist(1,3,binary)],
+    ]
+
+display(HTML(tabulate.tabulate(table, tablefmt='html')))
+</code></pre>
+
+<p><strong>out :</strong></p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Jarak</th>
+<th>Numeric</th>
+<th>Ordinal</th>
+<th>Binary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1-v2</td>
+<td>0</td>
+<td>1.4141700880324857</td>
+<td>1.3333333333333333</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>v1-v3</td>
+<td>0</td>
+<td>1.4141944609095267</td>
+<td>1.3333333333333333</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>v2-v3</td>
+<td>0</td>
+<td>1.4141919305747108</td>
+<td>1.3333333333333333</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>v3-v4</td>
+<td>0</td>
+<td>1.4141637566653718</td>
+<td>1.3333333333333333</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+<p>https://github.com/erfiandanuri80/Asli_PENAMBANGAN_DATA/tree/master/asset](https://github.com/erfiandanuri80/Asli_PENAMBANGAN_DATA/tree/master/asset)</p>
               
             </div>
           </div>
