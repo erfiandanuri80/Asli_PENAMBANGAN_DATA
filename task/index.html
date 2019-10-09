@@ -68,6 +68,8 @@
         
             <li><a class="toctree-l3" href="#tugas-30">TUGAS 3.0</a></li>
         
+            <li><a class="toctree-l3" href="#tugas-40">TUGAS 4.0</a></li>
+        
         </ul>
     
 
@@ -136,6 +138,30 @@
 <li><a href="#mencari-entropy">Mencari Entropy</a></li>
 <li><a href="#gain">Gain</a></li>
 <li><a href="#skor-keseluruhan-gain">Skor Keseluruhan Gain</a></li>
+</ul>
+</li>
+<li><a href="#tugas-40"><u>TUGAS 4.0</u></a><ul>
+<li><a href="#naive-bayes-classifiers">Naive Bayes Classifiers</a><ul>
+<li><a href="#alur-kerja-klasifikasi">Alur Kerja Klasifikasi</a></li>
+<li><a href="#teorema-bayes">Teorema Bayes</a></li>
+<li><a href="#pendekatan-pertama-dalam-hal-fitur-tunggal">Pendekatan Pertama (Dalam hal fitur tunggal)</a></li>
+<li><a href="#pendekatan-kedua-dalam-hal-banyak-fitur">Pendekatan Kedua (Dalam hal banyak fitur)</a></li>
+</ul>
+</li>
+<li><a href="#bangunan-classifier-di-scikit-learn">Bangunan Classifier di Scikit-learn</a><ul>
+<li><a href="#klasifikasi-naif-bayes">Klasifikasi Naif Bayes</a></li>
+<li><a href="#mendefinisikan-dataset">Mendefinisikan Dataset</a></li>
+<li><a href="#memuat-data">Memuat data</a></li>
+<li><a href="#menjelajahi-data">Menjelajahi Data</a></li>
+</ul>
+</li>
+<li><a href="#memisahkan-data">Memisahkan Data</a></li>
+<li><a href="#pembuatan-model">Pembuatan Model</a></li>
+<li><a href="#mengevaluasi-model">Mengevaluasi Model</a><ul>
+<li><a href="#keuntungan">Keuntungan</a></li>
+<li><a href="#kekurangan">Kekurangan</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1311,6 +1337,660 @@ $$</p>
 </tr>
 </tbody>
 </table>
+<h3 id="tugas-40"><u>TUGAS 4.0</u></h3>
+<p><img alt="img" src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836884/image_1_qegish.png" /></p>
+<h5 id="naive-bayes-classifiers">Naive Bayes Classifiers</h5>
+<p>Pengklasifikasi Naif Bayes adalah kumpulan algoritma klasifikasi berdasarkan <strong>Teorema Bayes</strong> . Ini bukan algoritma tunggal tetapi keluarga algoritma di mana mereka semua berbagi prinsip yang sama, yaitu setiap pasangan fitur yang diklasifikasi tidak tergantung satu sama lain. </p>
+<h6 id="alur-kerja-klasifikasi">Alur Kerja Klasifikasi</h6>
+<p>Setiap kali Anda melakukan klasifikasi, langkah pertama adalah memahami masalah dan mengidentifikasi fitur dan label potensial. Fitur adalah karakteristik atau atribut yang memengaruhi hasil label. Misalnya, dalam hal penyaluran pinjaman, manajer bank mengidentifikasi pekerjaan, pendapatan, usia, lokasi nasabah, riwayat pinjaman sebelumnya, riwayat transaksi, dan skor kredit. Karakteristik ini dikenal sebagai fitur yang membantu model mengklasifikasikan pelanggan.</p>
+<p>Klasifikasi memiliki dua fase, fase pembelajaran, dan fase evaluasi. Pada fase pembelajaran, classifier melatih modelnya pada dataset yang diberikan dan pada fase evaluasi, ia menguji kinerja classifier. Kinerja dievaluasi berdasarkan berbagai parameter seperti akurasi, kesalahan, presisi, dan penarikan.</p>
+<p><img alt="img" src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836883/image_2_rrxvol.png" /></p>
+<p>Naive Bayes adalah teknik klasifikasi statistik berdasarkan Bayes Theorem. Ini adalah salah satu algoritma pembelajaran terawasi yang paling sederhana. Klasifikasi Naive Bayes adalah algoritma yang cepat, akurat dan andal. Klasifikasi Naif Bayes memiliki akurasi dan kecepatan tinggi pada dataset besar.</p>
+<p>Klasifikasi Naive Bayes mengasumsikan bahwa efek fitur tertentu di kelas tidak tergantung pada fitur lainnya. Misalnya, pemohon pinjaman diinginkan atau tidak tergantung pada pendapatannya, pinjaman sebelumnya dan riwayat transaksi, usia, dan lokasi. Sekalipun fitur-fitur ini saling bergantung, fitur-fitur ini masih dianggap independen. Asumsi ini menyederhanakan perhitungan, dan itu sebabnya dianggap naif. Asumsi ini disebut independensi kondisional kelas.</p>
+<h6 id="teorema-bayes"><strong>Teorema Bayes</strong></h6>
+<p>Teorema Bayes menemukan probabilitas suatu peristiwa terjadi mengingat probabilitas peristiwa lain yang telah terjadi. Teorema Bayes dinyatakan secara matematis sebagai persamaan berikut:</p>
+<p><img alt="img" src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836882/image_3_ijznzs.png" /></p>
+<ul>
+<li>P (h): probabilitas hipotesis h menjadi benar (terlepas dari data). Ini dikenal sebagai probabilitas sebelumnya dari h.</li>
+<li>P (D): probabilitas data (terlepas dari hipotesis). Ini dikenal sebagai probabilitas sebelumnya.</li>
+<li>P (h | D): probabilitas hipotesis h diberikan data D. Ini dikenal sebagai probabilitas posterior.</li>
+<li>P (D | h): probabilitas data d mengingat bahwa hipotesis h adalah benar. Ini dikenal sebagai probabilitas posterior.</li>
+</ul>
+<p>Sekarang, sehubungan dengan dataset kami, kami dapat menerapkan teorema Bayes dengan cara berikut:</p>
+<p><img src="https://www.geeksforgeeks.org/wp-content/ql-cache/quicklatex.com-e85875a7ff9e9b557eab6281cc7ff078_l3.svg" alt=" P (y | X) = \ frac {P (X | y) P (y)} {P (X)} " style="zoom:150%;" /></p>
+<p>di mana, y adalah variabel kelas dan X adalah vektor fitur dependen (ukuran <em>n</em> ) di mana:</p>
+<p><img src="https://www.geeksforgeeks.org/wp-content/ql-cache/quicklatex.com-5385a4693c3fb17811cf36593978a601_l3.svg" alt=" X = (x_1, x_2, x_3, ....., x_n) " style="zoom:150%;" /></p>
+<p>Hanya untuk menghapus, contoh vektor fitur dan variabel kelas yang sesuai dapat berupa: (rujuk baris pertama dataset)</p>
+<h6 id="pendekatan-pertama-dalam-hal-fitur-tunggal">Pendekatan Pertama (Dalam hal fitur tunggal)</h6>
+<p>Pengklasifikasi Naive Bayes menghitung probabilitas suatu peristiwa dalam langkah-langkah berikut:</p>
+<ul>
+<li>Langkah 1: Hitung probabilitas sebelumnya untuk label kelas yang diberikan</li>
+<li>Langkah 2: Temukan probabilitas Peluang dengan setiap atribut untuk setiap kelas</li>
+<li>Langkah 3: Masukkan nilai ini dalam Formula Bayes dan hitung probabilitas posterior.</li>
+<li>Langkah 4: Lihat kelas mana yang memiliki probabilitas lebih tinggi, mengingat input milik kelas probabilitas lebih tinggi.</li>
+</ul>
+<p>Untuk menyederhanakan perhitungan probabilitas sebelum dan posterior Anda dapat menggunakan tabel dua frekuensi dan kemungkinan. Kedua tabel ini akan membantu Anda menghitung probabilitas sebelum dan belakang. Tabel Frekuensi berisi kemunculan label untuk semua fitur. Ada dua tabel kemungkinan. Kemungkinan Tabel 1 menunjukkan probabilitas label sebelumnya dan Kemungkinan Tabel 2 menunjukkan probabilitas posterior.</p>
+<p><img alt="img" src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836883/image_4_lyi0ob.png" /></p>
+<h6 id="pendekatan-kedua-dalam-hal-banyak-fitur">Pendekatan Kedua (Dalam hal banyak fitur)</h6>
+<p><img alt="img" src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836884/image_5_uhsgzr.png" /></p>
+<h5 id="bangunan-classifier-di-scikit-learn">Bangunan Classifier di Scikit-learn</h5>
+<h6 id="klasifikasi-naif-bayes"><strong>Klasifikasi Naif Bayes</strong></h6>
+<h6 id="mendefinisikan-dataset"><strong>Mendefinisikan Dataset</strong></h6>
+<p><strong>Naif Bayes dengan Banyak Label</strong></p>
+<p>Sampai sekarang Anda telah belajar klasifikasi Naif Bayes dengan label biner. Sekarang Anda akan belajar tentang klasifikasi beberapa kelas di Naif Bayes. Yang dikenal sebagai klasifikasi multinomial Naive Bayes. Misalnya, jika Anda ingin mengklasifikasikan artikel berita tentang teknologi, hiburan, politik, atau olahraga.</p>
+<p>Pada bagian pembuatan model, Anda dapat menggunakan dataset iris yang merupakan  <a href="https://en.wikipedia.org/wiki/Multivariate_statistics">multivariat </a><a href="https://en.wikipedia.org/wiki/Data_set">kumpulan data</a> diperkenalkan oleh British <a href="https://en.wikipedia.org/wiki/Statistician">statistik</a> dan <a href="https://en.wikipedia.org/wiki/Biologist">biologi </a><a href="https://en.wikipedia.org/wiki/Ronald_Fisher">Ronald Fisher</a> pada tahun 1936 makalahnya <em>Penggunaan beberapa pengukuran di masalah taksonomi</em> sebagai contoh <a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis">analisis diskriminan linier</a> . Kadang-kadang disebut set data Iris Anderson karena <a href="https://en.wikipedia.org/wiki/Edgar_Anderson">Edgar Anderson</a> mengumpulkan data untuk menghitung variasi <a href="https://en.wikipedia.org/wiki/Morphology_(biology)">morfologis</a> bunga <em>Iris</em> dari tiga spesies terkait.Dua dari tiga spesies dikumpulkan di<a href="https://en.wikipedia.org/wiki/Gaspé_Peninsula"> Semenanjung Gaspé</a> "semuanya berasal dari padang rumput yang sama, dan dipetik pada hari yang sama dan diukur pada saat yang sama oleh orang yang sama dengan peralatan yang sama". </p>
+<p>Dataset terdiri dari 50 sampel dari masing-masing dari tiga spesies <em>Iris</em> ( <em>Iris setosa</em> , <em>Iris virginica</em> dan <em>Iris versicolor</em> ). Empat <a href="https://en.wikipedia.org/wiki/Features_(pattern_recognition)">fitur</a> diukur dari masing-masing sampel: panjang dan lebar <a href="https://en.wikipedia.org/wiki/Sepal">sepal</a> dan <a href="https://en.wikipedia.org/wiki/Petal">kelopak</a> , dalam sentimeter. Berdasarkan kombinasi keempat fitur ini, Fisher mengembangkan model diskriminan linier untuk membedakan spesies dari satu sama lain. Dataset tersedia di perpustakaan scikit-learn.</p>
+<pre><code>dataset = pd.read_csv('iris.csv',sep=&quot;,&quot;)
+dataset
+</code></pre>
+
+<p>output :</p>
+<table>
+<thead>
+<tr>
+<th align="right">sepal_length</th>
+<th align="right">sepal_width</th>
+<th align="right">petal_length</th>
+<th align="right">petal_width</th>
+<th align="right">species</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">0</td>
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="right">5.4</td>
+<td align="right">3.9</td>
+<td align="right">1.7</td>
+<td align="right">0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td align="right">4.6</td>
+<td align="right">3.4</td>
+<td align="right">1.4</td>
+<td align="right">0.3</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td align="right">5.0</td>
+<td align="right">3.4</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td align="right">4.4</td>
+<td align="right">2.9</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td align="right">4.9</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.1</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td align="right">5.4</td>
+<td align="right">3.7</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">11</td>
+<td align="right">4.8</td>
+<td align="right">3.4</td>
+<td align="right">1.6</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">12</td>
+<td align="right">4.8</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.1</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">13</td>
+<td align="right">4.3</td>
+<td align="right">3.0</td>
+<td align="right">1.1</td>
+<td align="right">0.1</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">14</td>
+<td align="right">5.8</td>
+<td align="right">4.0</td>
+<td align="right">1.2</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">15</td>
+<td align="right">5.7</td>
+<td align="right">4.4</td>
+<td align="right">1.5</td>
+<td align="right">0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">16</td>
+<td align="right">5.4</td>
+<td align="right">3.9</td>
+<td align="right">1.3</td>
+<td align="right">0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">17</td>
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.3</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">18</td>
+<td align="right">5.7</td>
+<td align="right">3.8</td>
+<td align="right">1.7</td>
+<td align="right">0.3</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">19</td>
+<td align="right">5.1</td>
+<td align="right">3.8</td>
+<td align="right">1.5</td>
+<td align="right">0.3</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">20</td>
+<td align="right">5.4</td>
+<td align="right">3.4</td>
+<td align="right">1.7</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">21</td>
+<td align="right">5.1</td>
+<td align="right">3.7</td>
+<td align="right">1.5</td>
+<td align="right">0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">22</td>
+<td align="right">4.6</td>
+<td align="right">3.6</td>
+<td align="right">1.0</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">23</td>
+<td align="right">5.1</td>
+<td align="right">3.3</td>
+<td align="right">1.7</td>
+<td align="right">0.5</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">24</td>
+<td align="right">4.8</td>
+<td align="right">3.4</td>
+<td align="right">1.9</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">25</td>
+<td align="right">5.0</td>
+<td align="right">3.0</td>
+<td align="right">1.6</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">26</td>
+<td align="right">5.0</td>
+<td align="right">3.4</td>
+<td align="right">1.6</td>
+<td align="right">0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">27</td>
+<td align="right">5.2</td>
+<td align="right">3.5</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">28</td>
+<td align="right">5.2</td>
+<td align="right">3.4</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">29</td>
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.6</td>
+<td align="right">0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<td align="right">...</td>
+<td align="right">...</td>
+<td align="right">...</td>
+<td align="right">...</td>
+<td align="right">...</td>
+<td>...</td>
+</tr>
+<tr>
+<td align="right">120</td>
+<td align="right">6.9</td>
+<td align="right">3.2</td>
+<td align="right">5.7</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">121</td>
+<td align="right">5.6</td>
+<td align="right">2.8</td>
+<td align="right">4.9</td>
+<td align="right">2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">122</td>
+<td align="right">7.7</td>
+<td align="right">2.8</td>
+<td align="right">6.7</td>
+<td align="right">2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">123</td>
+<td align="right">6.3</td>
+<td align="right">2.7</td>
+<td align="right">4.9</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">124</td>
+<td align="right">6.7</td>
+<td align="right">3.3</td>
+<td align="right">5.7</td>
+<td align="right">2.1</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">125</td>
+<td align="right">7.2</td>
+<td align="right">3.2</td>
+<td align="right">6.0</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">126</td>
+<td align="right">6.2</td>
+<td align="right">2.8</td>
+<td align="right">4.8</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">127</td>
+<td align="right">6.1</td>
+<td align="right">3.0</td>
+<td align="right">4.9</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">128</td>
+<td align="right">6.4</td>
+<td align="right">2.8</td>
+<td align="right">5.6</td>
+<td align="right">2.1</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">129</td>
+<td align="right">7.2</td>
+<td align="right">3.0</td>
+<td align="right">5.8</td>
+<td align="right">1.6</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">130</td>
+<td align="right">7.4</td>
+<td align="right">2.8</td>
+<td align="right">6.1</td>
+<td align="right">1.9</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">131</td>
+<td align="right">7.9</td>
+<td align="right">3.8</td>
+<td align="right">6.4</td>
+<td align="right">2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">132</td>
+<td align="right">6.4</td>
+<td align="right">2.8</td>
+<td align="right">5.6</td>
+<td align="right">2.2</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">133</td>
+<td align="right">6.3</td>
+<td align="right">2.8</td>
+<td align="right">5.1</td>
+<td align="right">1.5</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">134</td>
+<td align="right">6.1</td>
+<td align="right">2.6</td>
+<td align="right">5.6</td>
+<td align="right">1.4</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">135</td>
+<td align="right">7.7</td>
+<td align="right">3.0</td>
+<td align="right">6.1</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">136</td>
+<td align="right">6.3</td>
+<td align="right">3.4</td>
+<td align="right">5.6</td>
+<td align="right">2.4</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">137</td>
+<td align="right">6.4</td>
+<td align="right">3.1</td>
+<td align="right">5.5</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">138</td>
+<td align="right">6.0</td>
+<td align="right">3.0</td>
+<td align="right">4.8</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">139</td>
+<td align="right">6.9</td>
+<td align="right">3.1</td>
+<td align="right">5.4</td>
+<td align="right">2.1</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">140</td>
+<td align="right">6.7</td>
+<td align="right">3.1</td>
+<td align="right">5.6</td>
+<td align="right">2.4</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">141</td>
+<td align="right">6.9</td>
+<td align="right">3.1</td>
+<td align="right">5.1</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">142</td>
+<td align="right">5.8</td>
+<td align="right">2.7</td>
+<td align="right">5.1</td>
+<td align="right">1.9</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">143</td>
+<td align="right">6.8</td>
+<td align="right">3.2</td>
+<td align="right">5.9</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">144</td>
+<td align="right">6.7</td>
+<td align="right">3.3</td>
+<td align="right">5.7</td>
+<td align="right">2.5</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">145</td>
+<td align="right">6.7</td>
+<td align="right">3.0</td>
+<td align="right">5.2</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">146</td>
+<td align="right">6.3</td>
+<td align="right">2.5</td>
+<td align="right">5.0</td>
+<td align="right">1.9</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">147</td>
+<td align="right">6.5</td>
+<td align="right">3.0</td>
+<td align="right">5.2</td>
+<td align="right">2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">148</td>
+<td align="right">6.2</td>
+<td align="right">3.4</td>
+<td align="right">5.4</td>
+<td align="right">2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<td align="right">149</td>
+<td align="right">5.9</td>
+<td align="right">3.0</td>
+<td align="right">5.1</td>
+<td align="right">1.8</td>
+<td>virginica</td>
+</tr>
+</tbody>
+</table>
+<p>150 rows × 5 columns </p>
+<p><img src="https://d31ezp3r8jwmks.cloudfront.net/variants/6bTVLAHna7XM5NkrEHeYXuKT/d2e337a4f6900f8d0798c596eb0607a8e0c2fbddb6a7ab7afcd60009c119d4c7" alt="Hasil gambar untuk dataset iris penjelasan" style="zoom: 50%;" /></p>
+<h6 id="memuat-data">Memuat data</h6>
+<p>Pertama mari kita memuat dataset anggur yang diperlukan dari dataset scikit-learn.</p>
+<pre><code>#Import scikit-learn dataset library
+from sklearn import datasets
+
+#Load dataset
+iris = datasets.load_iris()
+iris
+</code></pre>
+
+<h6 id="menjelajahi-data">Menjelajahi Data</h6>
+<p>Anda dapat mencetak nama target dan fitur, untuk memastikan Anda memiliki dataset yang tepat, seperti:</p>
+<pre><code class="python"># print the names of the 13 features
+
+print( &quot;Features: &quot;, iris.feature_names)
+
+# print the label type of iris(setosa, versicolor, virginica)
+
+print (&quot;Labels: &quot;, iris.target_names)
+</code></pre>
+
+<p>output : </p>
+<pre><code>Features:  ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
+Labels:  ['setosa' 'versicolor' 'virginica']
+</code></pre>
+
+<p>Merupakan ide bagus untuk selalu sedikit mengeksplorasi data Anda, sehingga Anda tahu apa yang sedang Anda kerjakan. Di sini, Anda dapat melihat lima baris pertama dataset dicetak, serta variabel target untuk seluruh dataset.</p>
+<pre><code class="python"># print data(feature)shape
+iris.data.shape
+# print the iris data features (top 5 records)
+print( iris.data[0:5])
+# print the iris labels (0:setosa, 1:versicolor, 2:virginica)
+print (iris.target)
+</code></pre>
+
+<p>output:</p>
+<pre><code>[[5.1 3.5 1.4 0.2]
+ [4.9 3.  1.4 0.2]
+ [4.7 3.2 1.3 0.2]
+ [4.6 3.1 1.5 0.2]
+ [5.  3.6 1.4 0.2]]
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2]
+</code></pre>
+
+<h4 id="memisahkan-data">Memisahkan Data</h4>
+<p>Pertama, Anda memisahkan kolom menjadi variabel dependen dan independen (atau fitur dan label). Kemudian Anda membagi variabel-variabel tersebut ke dalam train dan set tes.</p>
+<p><img src="https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1543836883/image_6_cfpjpr.png" alt="img" style="zoom: 80%;" /></p>
+<pre><code class="python"># Import train_test_split function
+from sklearn.model_selection import train_test_split
+
+# Split dataset into training set and test set
+
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3,random_state=109)
+</code></pre>
+
+<h4 id="pembuatan-model">Pembuatan Model</h4>
+<p>Setelah pemisahan, Anda akan menghasilkan model hutan acak pada set pelatihan dan melakukan prediksi pada fitur set tes.</p>
+<pre><code class="python">#Import Gaussian Naive Bayes model
+from sklearn.naive_bayes import GaussianNB
+
+#Create a Gaussian Classifier
+gnb = GaussianNB()
+
+#Train the model using the training sets
+gnb.fit(X_train, y_train)
+
+#Predict the response for test dataset
+y_pred = gnb.predict(X_test)
+</code></pre>
+
+<h4 id="mengevaluasi-model">Mengevaluasi Model</h4>
+<p>Setelah pembuatan model, periksa akurasi menggunakan nilai aktual dan prediksi.</p>
+<pre><code class="python">#Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
+
+# Model Accuracy, how often is the classifier correct?
+print(&quot;Accuracy:&quot;,metrics.accuracy_score(y_test, y_pred))
+</code></pre>
+
+<p>output :</p>
+<pre><code>Accuracy: 0.9555555555555556
+</code></pre>
+
+<h6 id="keuntungan">Keuntungan</h6>
+<ul>
+<li>Ini bukan hanya pendekatan sederhana tetapi juga metode prediksi yang cepat dan akurat.</li>
+<li>Naive Bayes memiliki biaya perhitungan yang sangat rendah.</li>
+<li>Secara efisien dapat bekerja pada dataset besar.</li>
+<li>Berkinerja baik jika variabel respon diskrit dibandingkan dengan variabel kontinu.</li>
+<li>Ini dapat digunakan dengan masalah prediksi beberapa kelas.</li>
+<li>Ini juga berkinerja baik dalam masalah analitik teks.</li>
+<li>Ketika asumsi independensi berlaku, classifier Naif Bayes berkinerja lebih baik dibandingkan dengan model lain seperti regresi logistik.</li>
+</ul>
+<h6 id="kekurangan">Kekurangan</h6>
+<ul>
+<li>Asumsi fitur independen. Dalam praktiknya, hampir tidak mungkin bahwa model akan mendapatkan seperangkat alat prediksi yang sepenuhnya independen.</li>
+<li>Jika tidak ada tuple pelatihan dari kelas tertentu, ini menyebabkan probabilitas nol posterior. Dalam hal ini, model tidak dapat membuat prediksi. Masalah ini dikenal sebagai Zero Probability / Frequency Problem.</li>
+</ul>
               
             </div>
           </div>
