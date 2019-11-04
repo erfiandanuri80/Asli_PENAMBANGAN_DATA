@@ -70,6 +70,8 @@
         
             <li><a class="toctree-l3" href="#tugas-40">TUGAS 4.0</a></li>
         
+            <li><a class="toctree-l3" href="#tugas-50">TUGAS 5.0</a></li>
+        
         </ul>
     
 
@@ -162,6 +164,16 @@
 <li><a href="#kekurangan">Kekurangan</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#tugas-50"><u>TUGAS 5.0</u></a><ul>
+<li><a href="#w-knn-weighted-k-nearest-neighbour">W-KNN (Weighted K-Nearest Neighbour)</a><ul>
+<li><a href="#intuisi">Intuisi:</a></li>
+<li><a href="#algoritma">Algoritma</a></li>
+<li><a href="#implementasi">Implementasi:</a></li>
+</ul>
+</li>
+<li><a href="#w-knn-dengan-dataset-iris">W-KNN dengan Dataset Iris</a></li>
 </ul>
 </li>
 </ul>
@@ -1991,6 +2003,91 @@ print(&quot;Accuracy:&quot;,metrics.accuracy_score(y_test, y_pred))
 <li>Asumsi fitur independen. Dalam praktiknya, hampir tidak mungkin bahwa model akan mendapatkan seperangkat alat prediksi yang sepenuhnya independen.</li>
 <li>Jika tidak ada tuple pelatihan dari kelas tertentu, ini menyebabkan probabilitas nol posterior. Dalam hal ini, model tidak dapat membuat prediksi. Masalah ini dikenal sebagai Zero Probability / Frequency Problem.</li>
 </ul>
+<h3 id="tugas-50"><u>TUGAS 5.0</u></h3>
+<h4 id="w-knn-weighted-k-nearest-neighbour"><strong>W-KNN (Weighted K-Nearest Neighbour)</strong></h4>
+<p>adalah versi modifikasi dari K-NN . Salah satu dari banyak masalah yang mempengaruhi kinerja algoritma kNN adalah pilihan hyperparameter k. Jika k terlalu kecil, algoritme akan lebih sensitif terhadap pencilan. Jika k terlalu besar, maka lingkungan tersebut mungkin memasukkan terlalu banyak poin dari kelas lain.
+Masalah lainnya adalah pendekatan untuk menggabungkan label kelas. Metode paling sederhana adalah dengan mengambil suara terbanyak, tetapi ini bisa menjadi masalah jika tetangga terdekat sangat bervariasi dalam jarak mereka dan tetangga terdekat lebih andal menunjukkan kelas objek.</p>
+<h5 id="intuisi"><strong>Intuisi:</strong></h5>
+<p>Pertimbangkan set pelatihan berikut</p>
+<p><img alt="img" src="file:///H:/KULIAH/SEMESTER%203/PENAMBANGAN%20DATA/Weighted%20K-NN%20-%20GeeksforGeeks_files/download10.png" /></p>
+<p>Label merah menunjukkan poin kelas 0 dan label hijau menunjukkan poin kelas 1.
+Pertimbangkan titik putih sebagai titik kueri (titik mana label kelas harus diprediksi)</p>
+<p>Jika kita memberikan dataset di atas ke classifier berbasis kNN, maka classifier akan mendeklarasikan point query milik kelas 0. Namun dalam plot, jelas bahwa point lebih dekat ke class 1 point dibandingkan dengan class. 0 poin. Untuk mengatasi kerugian ini, kNN tertimbang digunakan. Dalam kNN tertimbang, titik k terdekat diberi bobot menggunakan fungsi yang disebut sebagai fungsi kernel. Intuisi di balik kNN tertimbang, adalah untuk memberikan bobot lebih ke titik-titik yang dekat dan lebih sedikit bobot ke titik-titik yang lebih jauh. Fungsi apa pun dapat digunakan sebagai fungsi kernel untuk pengklasifikasi knn tertimbang yang nilainya berkurang dengan meningkatnya jarak. Fungsi sederhana yang digunakan adalah fungsi jarak terbalik.</p>
+<h5 id="algoritma"><strong>Algoritma</strong></h5>
+<ul>
+<li>Misalkan L = {(x i , y i ), i = 1,. . . , n} menjadi seperangkat pelatihan pengamatan x i dengan kelas yang diberikan y i dan membiarkan x menjadi pengamatan baru (titik kueri), yang label kelasnya y harus diprediksi.</li>
+<li>Hitung d (x i , x) untuk i = 1,. . . , n, jarak antara titik kueri dan setiap titik lainnya dalam set pelatihan.</li>
+<li>Pilih D '⊆ D, set k poin data pelatihan terdekat ke poin kueri</li>
+<li>Memprediksi kelas titik kueri, menggunakan pemungutan suara berbobot jarak. V mewakili label kelas. Gunakan rumus berikut</li>
+</ul>
+<p><img alt="img" src="file:///H:/KULIAH/SEMESTER%203/PENAMBANGAN%20DATA/Weighted%20K-NN%20-%20GeeksforGeeks_files/Formula2.jpg" /></p>
+<h5 id="implementasi"><strong>Implementasi:</strong></h5>
+<p>Anggap 0 sebagai label untuk kelas 0 dan 1 sebagai label untuk kelas 1. Di bawah ini adalah penerapan algoritma weighted-kNN.</p>
+<blockquote>
+<p>Fungsi ini menemukan klasifikasi p menggunakan
+    tertimbang k algoritma tetangga terdekat. Ini mengasumsikan hanya dua
+    dua kelas dan mengembalikan 0 jika p milik kelas 0, yang lain
+    1 (milik kelas 1)</p>
+<p>Parameter -
+     poin: Kamus poin pelatihan yang memiliki dua kunci - 0 dan 1
+         Setiap kunci memiliki daftar poin data pelatihan milik itu</p>
+<p>​     p: Sebuah tuple, data titik uji bentuk (x, y)</p>
+<p>​     k: jumlah tetangga terdekat yang perlu dipertimbangkan, standarnya adalah 3</p>
+</blockquote>
+<pre><code class="python">import math  
+
+def weightedkNN(points,p,k=3):    
+    distance=[]  
+    for group in points:  
+        for feature in points[group]:  
+           # Hitung jarak euclidean p dari titik pelatihan
+            euclidean_distance = math.sqrt((feature[0]-p[0])**2 +(feature[1]-p[1])**2)  
+            # Tambahkan tupel formulir (jarak, grup) dalam daftar jarak
+            distance.append((euclidean_distance,group))  
+
+    # Urutkan daftar jarak dalam urutan menaik
+    # dan pilih jarak k pertama 
+    distance = sorted(distance)[:k]  
+
+    freq1 = 0 # jumlah tertimbang dari grup 0
+    freq2 = 0 # jumlah tertimbang dari grup 1
+
+    for d in distance: 
+        if d[1] == 0: 
+            freq1 += (1 / d[0]) 
+
+        elif d[1] == 1:  
+            freq2 += (1 /d[0]) 
+
+
+    return 0 if freq1&gt;freq2 else 1
+</code></pre>
+
+<pre><code class="python">def main():  
+
+    # Kamus poin pelatihan yang memiliki dua kunci - 0 dan 1
+    # key 0 punya poin milik kelas 0
+    # kunci 1 memiliki poin milik kelas 1
+    points = {0:[(0, 4),(1, 4.9),(1.6, 5.4),(2.2, 6),(2.8, 7),(3.2, 8),(3.4, 9)],  
+            1:[(1.8, 1),(2.2, 3),(3, 4),(4, 4.5),(5, 5),(6, 5.5)]}  
+
+    #titik point p(x,y)  
+    p = (2, 4)  
+
+    #jumlah tetangga 
+    k = 5
+
+    print(&quot;The value classified to query point is: {}&quot;.format(weightedkNN(points,p,k)))  
+
+if __name__ == '__main__':  
+    main()  
+</code></pre>
+
+<p>output : </p>
+<pre><code>The value classified to query point is: 1
+</code></pre>
+
+<h4 id="w-knn-dengan-dataset-iris">W-KNN dengan Dataset Iris</h4>
               
             </div>
           </div>
