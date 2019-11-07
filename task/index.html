@@ -2013,7 +2013,7 @@ print(&quot;Accuracy:&quot;,metrics.accuracy_score(y_test, y_pred))
 Masalah lainnya adalah pendekatan untuk menggabungkan label kelas. Metode paling sederhana adalah dengan mengambil suara terbanyak, tetapi ini bisa menjadi masalah jika tetangga terdekat sangat bervariasi dalam jarak mereka dan tetangga terdekat lebih andal menunjukkan kelas objek.</p>
 <h5 id="intuisi"><strong>Intuisi:</strong></h5>
 <p>Pertimbangkan set pelatihan berikut</p>
-<p><img alt="img" src="file:///H:/KULIAH/SEMESTER%203/PENAMBANGAN%20DATA/Weighted%20K-NN%20-%20GeeksforGeeks_files/download10.png" /></p>
+<p><img alt="img" src="https://media.geeksforgeeks.org/wp-content/uploads/20190613212412/download10.png" /></p>
 <p>Label merah menunjukkan poin kelas 0 dan label hijau menunjukkan poin kelas 1.
 Pertimbangkan titik putih sebagai titik kueri (titik mana label kelas harus diprediksi)</p>
 <p>Jika kita memberikan dataset di atas ke classifier berbasis kNN, maka classifier akan mendeklarasikan point query milik kelas 0. Namun dalam plot, jelas bahwa point lebih dekat ke class 1 point dibandingkan dengan class. 0 poin. Untuk mengatasi kerugian ini, kNN tertimbang digunakan. Dalam kNN tertimbang, titik k terdekat diberi bobot menggunakan fungsi yang disebut sebagai fungsi kernel. Intuisi di balik kNN tertimbang, adalah untuk memberikan bobot lebih ke titik-titik yang dekat dan lebih sedikit bobot ke titik-titik yang lebih jauh. Fungsi apa pun dapat digunakan sebagai fungsi kernel untuk pengklasifikasi knn tertimbang yang nilainya berkurang dengan meningkatnya jarak. Fungsi sederhana yang digunakan adalah fungsi jarak terbalik.</p>
